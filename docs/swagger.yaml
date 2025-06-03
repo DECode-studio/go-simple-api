@@ -1,0 +1,142 @@
+basePath: /api/v1
+definitions:
+  model_api.ApiResponseDoc:
+    properties:
+      data: {}
+      status:
+        $ref: '#/definitions/model_api.StatusModel'
+    type: object
+  model_api.RegisterRequest:
+    properties:
+      emailUser:
+        type: string
+      nameUser:
+        type: string
+      passwordUser:
+        minLength: 8
+        type: string
+    required:
+    - emailUser
+    - nameUser
+    - passwordUser
+    type: object
+  model_api.SignInRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  model_api.StatusModel:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: This is a sample server for a simple API.
+  title: Simple API with Gin
+  version: "1.0"
+paths:
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user with name, email, and password.
+      parameters:
+      - description: User Registration Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model_api.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully registered
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+      summary: User Registration
+      tags:
+      - Auth
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns a JWT token.
+      parameters:
+      - description: User Credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/model_api.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Sign in successful
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+      summary: User Sign-In
+      tags:
+      - Auth
+  /data/user:
+    get:
+      description: |-
+        Get profile details for the currently authenticated user by reading the JWT.
+        Type "Bearer" followed by a space and a JWT token.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved user profile
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+      security:
+      - BearerAuth: []
+      summary: Get Logged In User Profile
+      tags:
+      - Data
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and a JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
