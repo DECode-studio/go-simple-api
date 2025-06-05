@@ -13,7 +13,7 @@ import (
 
 // @Summary      Get Logged In User Profile
 // @Description  Get profile details for the currently authenticated user by reading the JWT.
-// @Tags         Data
+// @Tags         User
 // @Produce      json
 // @Security     BearerAuth
 // @Success      200 {object} model_api.ApiResponseDoc "Successfully retrieved user profile"
@@ -27,12 +27,13 @@ import (
 func GetUser(
 	c *gin.Context,
 ) {
-
 	idUserInterface, exists := c.Get("idUser")
 	if !exists {
-
 		c.JSON(http.StatusUnauthorized, model_api.ApiResponseDoc{
-			Status: &model_api.StatusModel{Code: http.StatusUnauthorized, Message: "User identifier not found in context"},
+			Status: &model_api.StatusModel{
+				Code:    http.StatusUnauthorized,
+				Message: "User identifier not found in context",
+			},
 		})
 		return
 	}
@@ -42,23 +43,36 @@ func GetUser(
 	var user model_database.User
 	queryCondition := model_database.User{IDUser: idUser}
 
-	if err := config.DB.Where(&queryCondition).First(&user).Error; err != nil {
+	if err := config.DB.
+		Preload("Wallets").
+		Where(&queryCondition).
+		First(&user).Error; err != nil {
+
 		if err == gorm.ErrRecordNotFound {
 			c.JSON(http.StatusNotFound, model_api.ApiResponseDoc{
-				Status: &model_api.StatusModel{Code: http.StatusNotFound, Message: "User with the given ID not found"},
+				Status: &model_api.StatusModel{
+					Code:    http.StatusNotFound,
+					Message: "User with the given ID not found",
+				},
 			})
 			return
 		}
 
 		c.JSON(http.StatusInternalServerError, model_api.ApiResponseDoc{
-			Status: &model_api.StatusModel{Code: http.StatusInternalServerError, Message: "Database error"},
+			Status: &model_api.StatusModel{
+				Code:    http.StatusInternalServerError,
+				Message: "Database error",
+			},
 		})
 		return
 	}
 
 	response := model_api.ApiResponse[model_database.User]{
-		Status: &model_api.StatusModel{Code: http.StatusOK, Message: "User profile retrieved successfully"},
-		Data:   &user,
+		Status: &model_api.StatusModel{
+			Code:    http.StatusOK,
+			Message: "User profile retrieved successfully",
+		},
+		Data: &user,
 	}
 
 	c.JSON(http.StatusOK, response)
@@ -66,7 +80,7 @@ func GetUser(
 
 // @Summary      Edit User Profile
 // @Description  Edit profile details for the currently authenticated user by reading the JWT dan Update Request.
-// @Tags         Data
+// @Tags         User
 // @Produce      json
 // @Security     BearerAuth
 // @Param        payload   body      model_api.UpdateUserRequest  true  "User Edit Payload"
@@ -84,7 +98,6 @@ func UpdateUser(
 	idUserInterface, exists := c.Get("idUser")
 
 	if !exists {
-
 		c.JSON(http.StatusUnauthorized, model_api.ApiResponseDoc{
 			Status: &model_api.StatusModel{Code: http.StatusUnauthorized, Message: "User identifier not found in context"},
 		})

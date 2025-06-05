@@ -15,3 +15,11 @@ type UpdateUserRequest struct {
 	NameUser     string `json:"nameUser"`
 	PasswordUser string `json:"passwordUser"`
 }
+
+type AddWalletRequest struct {
+	WalletAddress string `json:"walletAddress" binding:"required"`
+}
+
+type DeleteWalletRequest struct {
+	IDWallet string `json:"idWallet" binding:"required"`
+}

@@ -48,12 +48,19 @@ func SetupRoutes(router *gin.Engine) {
 		)
 
 		// Wallet Route
+		apiV1.GET(
+			config.WALLET_ROUTE,
+			middleware.AuthMiddleware,
+			api_controller.GetWallet,
+		)
 		apiV1.POST(
 			config.WALLET_ROUTE,
-			// api_controller.AddWallet,
+			middleware.AuthMiddleware,
+			api_controller.AddWallet,
 		)
 		apiV1.DELETE(
 			config.WALLET_ROUTE,
+			middleware.AuthMiddleware,
 			// api_controller.DeleteWallet,
 		)
 	}

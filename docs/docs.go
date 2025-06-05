@@ -125,7 +125,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Data"
+                    "User"
                 ],
                 "summary": "Get Logged In User Profile",
                 "responses": {
@@ -160,7 +160,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Data"
+                    "User"
                 ],
                 "summary": "Edit User Profile",
                 "parameters": [
@@ -195,9 +195,103 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/data/wallet": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get list wallet address of currently authenticated user by reading the JWT.\nType \"Bearer\" followed by a space and a JWT token.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Get List Wallet Address Of User",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved user profile",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Add wallet address of currently authenticated user by reading the JWT.\nType \"Bearer\" followed by a space and a JWT token.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Add Wallet Address Of User",
+                "parameters": [
+                    {
+                        "description": "Add Wallet Payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model_api.AddWalletRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved user profile",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "model_api.AddWalletRequest": {
+            "type": "object",
+            "required": [
+                "walletAddress"
+            ],
+            "properties": {
+                "walletAddress": {
+                    "type": "string"
+                }
+            }
+        },
         "model_api.ApiResponseDoc": {
             "type": "object",
             "properties": {

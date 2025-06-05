@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  model_api.AddWalletRequest:
+    properties:
+      walletAddress:
+        type: string
+    required:
+    - walletAddress
+    type: object
   model_api.ApiResponseDoc:
     properties:
       data: {}
@@ -139,7 +146,7 @@ paths:
       - BearerAuth: []
       summary: Get Logged In User Profile
       tags:
-      - Data
+      - User
     put:
       description: |-
         Edit profile details for the currently authenticated user by reading the JWT dan Update Request.
@@ -170,7 +177,63 @@ paths:
       - BearerAuth: []
       summary: Edit User Profile
       tags:
-      - Data
+      - User
+  /data/wallet:
+    get:
+      description: |-
+        Get list wallet address of currently authenticated user by reading the JWT.
+        Type "Bearer" followed by a space and a JWT token.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved user profile
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+      security:
+      - BearerAuth: []
+      summary: Get List Wallet Address Of User
+      tags:
+      - Wallet
+    post:
+      description: |-
+        Add wallet address of currently authenticated user by reading the JWT.
+        Type "Bearer" followed by a space and a JWT token.
+      parameters:
+      - description: Add Wallet Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model_api.AddWalletRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved user profile
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+      security:
+      - BearerAuth: []
+      summary: Add Wallet Address Of User
+      tags:
+      - Wallet
 securityDefinitions:
   BearerAuth:
     description: Type "Bearer" followed by a space and a JWT token.
