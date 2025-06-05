@@ -11,6 +11,7 @@ func GetPort() string {
 
 const (
 	// Base API
+	ROOT_API    = "/"
 	BASE_API_V1 = "/api/v1"
 
 	// Swagger ROUTE

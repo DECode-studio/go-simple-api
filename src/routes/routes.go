@@ -12,11 +12,13 @@ import (
 
 func SetupRoutes(router *gin.Engine) {
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Simple GO Api",
-		})
-	})
+	router.GET(config.ROOT_API,
+		func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"message": "Simple GO Api",
+			})
+		},
+	)
 
 	router.GET(
 		config.SWAGGER_ROUTE,
