@@ -63,7 +63,7 @@ func SetupRoutes(router *gin.Engine) {
 		apiV1.DELETE(
 			config.WALLET_ROUTE,
 			middleware.AuthMiddleware,
-			// api_controller.DeleteWallet,
+			api_controller.DeleteWallet,
 		)
 	}
 }

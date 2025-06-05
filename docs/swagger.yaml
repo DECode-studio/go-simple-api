@@ -13,6 +13,13 @@ definitions:
       status:
         $ref: '#/definitions/model_api.StatusModel'
     type: object
+  model_api.DeleteWalletRequest:
+    properties:
+      idWallet:
+        type: string
+    required:
+    - idWallet
+    type: object
   model_api.RegisterRequest:
     properties:
       emailUser:
@@ -179,6 +186,37 @@ paths:
       tags:
       - User
   /data/wallet:
+    delete:
+      description: |-
+        Delete wallet address of ID WAllet and currently authenticated user by reading the JWT.
+        Type "Bearer" followed by a space and a JWT token.
+      parameters:
+      - description: Add Wallet Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model_api.DeleteWalletRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully delete wallet address
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+      security:
+      - BearerAuth: []
+      summary: Delete Wallet Address By ID Wallet
+      tags:
+      - Wallet
     get:
       description: |-
         Get list wallet address of currently authenticated user by reading the JWT.

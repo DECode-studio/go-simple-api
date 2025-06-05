@@ -277,6 +277,52 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete wallet address of ID WAllet and currently authenticated user by reading the JWT.\nType \"Bearer\" followed by a space and a JWT token.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wallet"
+                ],
+                "summary": "Delete Wallet Address By ID Wallet",
+                "parameters": [
+                    {
+                        "description": "Add Wallet Payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model_api.DeleteWalletRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully delete wallet address",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    }
+                }
             }
         }
     },
@@ -298,6 +344,17 @@ const docTemplate = `{
                 "data": {},
                 "status": {
                     "$ref": "#/definitions/model_api.StatusModel"
+                }
+            }
+        },
+        "model_api.DeleteWalletRequest": {
+            "type": "object",
+            "required": [
+                "idWallet"
+            ],
+            "properties": {
+                "idWallet": {
+                    "type": "string"
                 }
             }
         },
