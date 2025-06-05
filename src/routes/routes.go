@@ -2,7 +2,7 @@ package routes
 
 import (
 	"go-simple-api/src/config"
-	api_controller "go-simple-api/src/controller/api"
+	api_controller "go-simple-api/src/controller"
 	"go-simple-api/src/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -43,7 +43,8 @@ func SetupRoutes(router *gin.Engine) {
 		)
 		apiV1.PUT(
 			config.USER_ROUTE,
-			// api_controller.UpdateUser,
+			middleware.AuthMiddleware,
+			api_controller.UpdateUser,
 		)
 
 		// Wallet Route

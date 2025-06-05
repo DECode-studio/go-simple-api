@@ -10,3 +10,8 @@ type RegisterRequest struct {
 	EmailUser    string `json:"emailUser" binding:"required,email"`
 	PasswordUser string `json:"passwordUser" binding:"required,min=8"`
 }
+
+type UpdateUserRequest struct {
+	NameUser     string `json:"nameUser"`
+	PasswordUser string `json:"passwordUser"`
+}

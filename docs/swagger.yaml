@@ -37,6 +37,13 @@ definitions:
       message:
         type: string
     type: object
+  model_api.UpdateUserRequest:
+    properties:
+      nameUser:
+        type: string
+      passwordUser:
+        type: string
+    type: object
 host: localhost:3000
 info:
   contact: {}
@@ -131,6 +138,37 @@ paths:
       security:
       - BearerAuth: []
       summary: Get Logged In User Profile
+      tags:
+      - Data
+    put:
+      description: |-
+        Edit profile details for the currently authenticated user by reading the JWT dan Update Request.
+        Type "Bearer" followed by a space and a JWT token.
+      parameters:
+      - description: User Edit Payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model_api.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved user profile
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/model_api.ApiResponseDoc'
+      security:
+      - BearerAuth: []
+      summary: Edit User Profile
       tags:
       - Data
 securityDefinitions:

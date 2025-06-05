@@ -148,6 +148,52 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Edit profile details for the currently authenticated user by reading the JWT dan Update Request.\nType \"Bearer\" followed by a space and a JWT token.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Data"
+                ],
+                "summary": "Edit User Profile",
+                "parameters": [
+                    {
+                        "description": "User Edit Payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model_api.UpdateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved user profile",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/model_api.ApiResponseDoc"
+                        }
+                    }
+                }
             }
         }
     },
@@ -203,6 +249,17 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "model_api.UpdateUserRequest": {
+            "type": "object",
+            "properties": {
+                "nameUser": {
+                    "type": "string"
+                },
+                "passwordUser": {
                     "type": "string"
                 }
             }
