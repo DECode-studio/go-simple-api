@@ -1,8 +1,5 @@
 ---
-
-````markdown
 # Go Simple API
-
 `go-simple-api` adalah RESTful API sederhana yang dibangun menggunakan Golang, Gin Framework, dan GORM, dengan integrasi dokumentasi API menggunakan Swagger.
 
 ## 🧱 Struktur Data
@@ -59,36 +56,26 @@ Disimpan dalam tabel `tblWallet`:
 ## 🚀 Cara Menjalankan
 
 1. Clone repositori ini:
-   ```bash
+   bash
    git clone https://github.com/username/go-simple-api.git
    cd go-simple-api
-   ```
-
+   
 2. Install dependensi:
-
-   ```bash
+   bash
    go mod tidy
-   ```
-
+   
 3. Jalankan aplikasi:
-
-   ```bash
+   bash
    go run main.go
-   ```
-
+   
 4. Buka dokumentasi Swagger di:
-
-   ```
    http://localhost:8080/swagger/index.html
-   ```
+   
 
 ## 🔐 Middleware
-
 * `AuthMiddleware`: digunakan untuk mengamankan endpoint `/user` dan `/wallet`.
 
 ## 🗂️ Struktur Folder
-
-```
 src/
 ├── config/
 ├── controller/
@@ -98,10 +85,9 @@ src/
 │   └── model_database/
 ├── routes/
 └── main.go
-```
+
 
 ## 📌 Catatan
-
 * Pastikan environment variable seperti koneksi database dikonfigurasi di `config`.
 * Endpoint `PUT /user`, `POST /wallet`, dan `DELETE /wallet` belum diimplementasikan secara penuh.
 * Password dienkripsi (rekomendasi: gunakan bcrypt).
@@ -109,13 +95,8 @@ src/
 ---
 
 ## 🧑‍💻 Kontributor
-
 * Nur Wahid Azhar
 
 ## 📝 Lisensi
-
 MIT License
-
-```
-
 ---
